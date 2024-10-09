@@ -4,7 +4,25 @@
   margin: 10px;
   padding: 10px;
 }
-.container .inputsLogin {
-  background-color: #E2E9E1;
-  color: gray;
+.container ul {
+  padding: 0;
+  list-style-type: none;
+}
+.container ul li {
+  padding: 10px;
+}
+.container ul li:nth-child(1) {
+  background-color: #c682ff;
+}
+.container ul li:nth-child(2) {
+  background-color: #ff82f9;
+}
+.container ul li:nth-child(3) {
+  background-color: #ff82bb;
+}
+.container ul li:nth-child(4) {
+  background-color: #ff8882;
+}
+.container ul li:nth-child(5) {
+  background-color: #ffc682;
 }

@@ -1,13 +1,25 @@
 @contColor: #EAFFE6;
+@colors: #c682ff, #ff82f9, #ff82bb, #ff8882, #ffc682;
 
-.container{
+
+.container {
     background: @contColor;
     max-width: 40%;
     margin: 10px;
     padding: 10px;
-    .inputsLogin{
-        background-color: #E2E9E1;
-        color: gray;
+
+    ul {
+        padding: 0;
+        list-style-type: none;
+
+        li {
+            padding: 10px;
+            each(@colors, {
+                @index: index(@colors); 
+                &:nth-child(@{index}) {
+                    background-color: @value;
+                }
+            });
+        }
     }
 }
-
