@@ -1,0 +1,10 @@
+.container {
+  background: #EAFFE6;
+  max-width: 40%;
+  margin: 10px;
+  padding: 10px;
+}
+.container .inputsLogin {
+  background-color: #E2E9E1;
+  color: gray;
+}
