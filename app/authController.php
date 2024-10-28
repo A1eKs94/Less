@@ -35,10 +35,10 @@
 
             if (isset($response->code) && $response->code == 2) {
                 $_SESSION['data'] = $response;
-                header('Location: ../home.html');
+                header('Location: ../home.php');
                 exit(); 
             } else {
-                echo "Login failed. Please check your credentials.";
+                echo "Error de inicio de sesion. Por favor verifique sus credenciales.";
             }
         }
     }
