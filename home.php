@@ -106,7 +106,7 @@ $productos = json_decode($response, true)['data'] ?? [];
                                     <div class="card-body">
                                         <h5 class="card-title"><?= $producto['name'] ?: 'Card title' ?></h5>
                                         <p class="card-text"><?= $producto['description'] ?: 'Some quick example text.' ?></p>
-                                        <a href="#" class="btn btn-primary">Go somewhere</a>
+                                            <a href="product.php?slug=<?= $producto['slug'] ?>" class="btn btn-primary">Go somewhere</a>
                                     </div>
                                 </div>
                             </div>
