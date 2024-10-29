@@ -11,35 +11,43 @@ curl_setopt_array($curl, array(
     CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
     CURLOPT_CUSTOMREQUEST => 'GET',
     CURLOPT_HTTPHEADER => array(
-        'Authorization: Bearer 635|dpQ8rIYnu4zuYBZB71sBeAhBrEtTuTZe8M4SGYjQ'
+        'Authorization: Bearer 13|TJVmwZdhJoQzsqsVziB7MnreYhmc2zPMPXM9ww61'
     ),
 ));
 
 $response = curl_exec($curl);
 curl_close($curl);
 
-$productos = json_decode($response, true)['data'] ?? []; 
+$productos = json_decode($response, true)['data'] ?? [];
 
 ?>
 
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Document</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
     <style>
-        .sidebar { height: 100vh; }
-        .main-content { flex-grow: 1; }
+       
+
+        .main-content {
+            flex-grow: 1;
+        }
+
         .card-img-top {
             max-height: 150px;
             max-width: 300px;
-            object-fit: cover; 
+            object-fit: cover;
         }
+
+        
     </style>
 </head>
-<body class="d-flex flex-column">
+
+<body class="d-flex flex-column min-vh-100">
     <header>
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <div class="container-fluid">
@@ -89,13 +97,79 @@ $productos = json_decode($response, true)['data'] ?? [];
                     <li><a class="dropdown-item" href="#">New project...</a></li>
                     <li><a class="dropdown-item" href="#">Settings</a></li>
                     <li><a class="dropdown-item" href="#">Profile</a></li>
-                    <li><hr class="dropdown-divider" /></li>
+                    <li>
+                        <hr class="dropdown-divider" />
+                    </li>
                     <li><a class="dropdown-item" href="#">Sign out</a></li>
                 </ul>
             </div>
         </div>
 
         <div class="main-content p-3">
+            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModal">Añadir producto</button>
+            <div
+                class="modal fade"
+                id="editModal"
+                tabindex="-1"
+                aria-labelledby="editModalLabel"
+                aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="editModalLabel">Añadir producto</h5>
+                            <button
+                                type="button"
+                                class="btn-close"
+                                data-bs-dismiss="modal"
+                                aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <form method="POST" action="app/newProduct.php">
+                                <div class="mb-3">
+                                    <label class="form-label">Nombre</label>
+                                    <input
+                                        type="text"
+                                        class="form-control"
+                                        name="name"
+                                        required />
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Slug</label>
+                                    <input
+                                        type="text"
+                                        class="form-control"
+                                        name="slug"
+                                        required />
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Descripción</label>
+                                    <input
+                                        type="text"
+                                        class="form-control"
+                                        name="description"
+                                        required />
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Características</label>
+                                    <input
+                                        type="text"
+                                        class="form-control"
+                                        name="features"
+                                        required />
+                                </div>
+                                <button type="submit" class="btn btn-primary">Añadir</button>
+                                <input type="hidden" name="addProduct" />
+                            </form>
+                            <button
+                                type="button"
+                                class="btn btn-secondary"
+                                data-bs-dismiss="modal">
+                                Close
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
             <div class="container">
                 <div class="row">
                     <?php if (!empty($productos)): ?>
@@ -106,7 +180,7 @@ $productos = json_decode($response, true)['data'] ?? [];
                                     <div class="card-body">
                                         <h5 class="card-title"><?= $producto['name'] ?: 'Card title' ?></h5>
                                         <p class="card-text"><?= $producto['description'] ?: 'Some quick example text.' ?></p>
-                                            <a href="product.php?slug=<?= $producto['slug'] ?>" class="btn btn-primary">Go somewhere</a>
+                                        <a href="product.php?slug=<?= $producto['slug'] ?>" class="btn btn-primary">Go somewhere</a>
                                     </div>
                                 </div>
                             </div>
@@ -116,9 +190,11 @@ $productos = json_decode($response, true)['data'] ?? [];
                     <?php endif; ?>
                 </div>
             </div>
+
         </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 </body>
+
 </html>
