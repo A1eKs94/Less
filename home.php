@@ -223,6 +223,10 @@ $productos = json_decode($response, true)['data'] ?? [];
                                             data-features="<?= $producto['features'] ?>">
                                             Editar producto
                                         </button>
+                                        <form action="app/deleteProduct.php" method="POST" id="delete-form-<?= $producto['id'] ?>">
+                                            <input type="hidden" name="id" value="<?= $producto['id'] ?>" />
+                                        </form>
+                                        <button class="btn btn-danger deleteProduct" value="<?= $producto['id'] ?>">Eliminar producto</button>
                                     </div>
                                 </div>
                             </div>
@@ -237,6 +241,7 @@ $productos = json_decode($response, true)['data'] ?? [];
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             editModal = document.getElementById('editModal');
@@ -256,6 +261,32 @@ $productos = json_decode($response, true)['data'] ?? [];
                 document.getElementById('edit-description').value = productDescription;
                 document.getElementById('edit-features').value = productFeatures;
             });
+        });
+    </script>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            deleteProduct = document.querySelectorAll('.deleteProduct');
+            deleteProduct.forEach(deleteProduct => {
+                deleteProduct.addEventListener('click', function() {
+                    swal({
+                            title: "Estas seguro?",
+                            text: "¡Una vez eliminado, no podrás recuperar este archivo imaginario!",
+                            icon: "warning",
+                            buttons: true,
+                            dangerMode: true,
+                        })
+                        .then((willDelete) => {
+                            if (willDelete) {
+                                document.getElementById(`delete-form-${deleteProduct.value}`).submit()
+                                swal("Poof! ¡Tu archivo imaginario ha sido eliminado!", {
+                                    icon: "success",
+                                    
+                                });
+                            }
+                        });
+                })
+            })
         });
     </script>
 
