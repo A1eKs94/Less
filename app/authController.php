@@ -37,10 +37,20 @@ class User
 
         if (isset($response->code) && $response->code == 2) {
             $_SESSION['data'] = $response;
+            $_SESSION['token'] = generateToken();
             header('Location: ../home.php');
             exit();
         } else {
             echo "Error de inicio de sesion. Por favor verifique sus credenciales.";
         }
     }
+}
+
+function generateToken($leng = 32){
+    $cadena = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    $token = '';
+    for ($i = 0; $i < $leng; $i++) {
+        $token .= $cadena[rand(0, strlen($cadena) - 1)];
+    }
+    return $token;
 }

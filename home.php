@@ -2,6 +2,9 @@
 
 include './app/getAllBrands.php';
 
+session_start();
+
+
 $curl = curl_init();
 
 curl_setopt_array($curl, array(
@@ -14,7 +17,7 @@ curl_setopt_array($curl, array(
     CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
     CURLOPT_CUSTOMREQUEST => 'GET',
     CURLOPT_HTTPHEADER => array(
-        'Authorization: Bearer 258|V3H1aJqlgkKnNVa7L7MxGoK1Xh2dYG4XQLhKk2Up'
+        'Authorization: Bearer 337|GzGcdu07geuD2hnudpxhuf3HFEr0CBvSKUEeHrUA'
     ),
 ));
 
@@ -172,6 +175,7 @@ $productos = json_decode($response, true)['data'] ?? [];
                                 </div>
                                 <button type="submit" class="btn btn-primary">Añadir</button>
                                 <input type="hidden" name="addProduct" />
+                                <input type="hidden" name="csrf_token" value="<?= $_SESSION['token'] ?>" />
                             </form>
                             <button
                                 type="button"
@@ -212,6 +216,7 @@ $productos = json_decode($response, true)['data'] ?? [];
                                 </div>
                                 <button type="submit" class="btn btn-primary">Guardar</button>
                                 <input type="hidden" name="updateProduct" />
+                                <input type="hidden" name="csrf_token" value="<?= $_SESSION['token'] ?> " />
                             </form>
                         </div>
                     </div>

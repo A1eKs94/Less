@@ -1,11 +1,17 @@
 <?php
 
+session_start();
+
 $name = $_POST["name"] ?? '';
 $slug = $_POST["slug"] ?? '';
 $description = $_POST["description"] ?? '';
 $features = $_POST["features"] ?? '';
 $id = $_POST["id"] ?? '';
 
+if (!isset($_POST['csrf_token']) || $_POST['csrf_token'] !== $_SESSION['token']) {
+    echo "Error al editar producto, token inválido.";
+    exit(); 
+}
 
 updateProduct($name, $slug, $description, $features, $id);
 
@@ -31,19 +37,26 @@ function updateProduct($name, $slug, $description, $features, $id)
         ]),
         CURLOPT_HTTPHEADER => array(
             'Content-Type: application/x-www-form-urlencoded',
-            'Authorization: Bearer 258|V3H1aJqlgkKnNVa7L7MxGoK1Xh2dYG4XQLhKk2Up',
+            'Authorization: Bearer 337|GzGcdu07geuD2hnudpxhuf3HFEr0CBvSKUEeHrUA',
         ),
     ));
 
     $response = curl_exec($curl);
+
+    if (curl_errno($curl)) {
+        echo 'Error en la petición: ' . curl_error($curl);
+        curl_close($curl);
+        return; 
+    }
+
     curl_close($curl);
 
     $response = json_decode($response);
 
-    header("location: ../home.php");
     if (isset($response->code) && $response->code == 4) {
+        header('Location: ../home.php'); 
         exit();
     } else {
-        echo "Error al editar producto: ";
+        echo "Error al editar producto:";
     }
 }
