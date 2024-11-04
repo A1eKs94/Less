@@ -6,9 +6,11 @@ $description = $_POST["description"] ?? '';
 $features = $_POST["features"] ?? '';
 $id = $_POST["id"] ?? '';
 
+
 updateProduct($name, $slug, $description, $features, $id);
 
-function updateProduct($name, $slug, $description, $features, $id) {
+function updateProduct($name, $slug, $description, $features, $id)
+{
     $curl = curl_init();
 
     curl_setopt_array($curl, array(
@@ -25,22 +27,22 @@ function updateProduct($name, $slug, $description, $features, $id) {
             'slug' => $slug,
             'description' => $description,
             'features' => $features,
-            'id' => $id
+            'id' => $id,
         ]),
         CURLOPT_HTTPHEADER => array(
             'Content-Type: application/x-www-form-urlencoded',
-            'Authorization: Bearer 13|TJVmwZdhJoQzsqsVziB7MnreYhmc2zPMPXM9ww61',
+            'Authorization: Bearer 258|V3H1aJqlgkKnNVa7L7MxGoK1Xh2dYG4XQLhKk2Up',
         ),
     ));
-    
+
     $response = curl_exec($curl);
     curl_close($curl);
-    
+
     $response = json_decode($response);
 
     header("location: ../home.php");
     if (isset($response->code) && $response->code == 4) {
-        exit(); 
+        exit();
     } else {
         echo "Error al editar producto: ";
     }

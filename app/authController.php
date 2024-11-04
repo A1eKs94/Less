@@ -1,46 +1,46 @@
 <?php
 
-    session_start();
+session_start();
 
-    $email = $_POST["email"];
-    $password = $_POST["password"];
+$email = $_POST["email"];
+$password = $_POST["password"];
 
-    $newUser = new User();
+$newUser = new User();
 
-    $newUser->login($email, $password);
+$newUser->login($email, $password);
 
 
-    class User{
+class User
+{
 
-        function login($email, $password){
-            $curl = curl_init();
+    function login($email, $password)
+    {
+        $curl = curl_init();
 
-            curl_setopt_array($curl, array(
-                CURLOPT_URL => 'https://crud.jonathansoto.mx/api/login',
-                CURLOPT_RETURNTRANSFER => true,
-                CURLOPT_ENCODING => '',
-                CURLOPT_MAXREDIRS => 10,
-                CURLOPT_TIMEOUT => 0,
-                CURLOPT_FOLLOWLOCATION => true,
-                CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-                CURLOPT_CUSTOMREQUEST => 'POST',
-                CURLOPT_POSTFIELDS => array('email' => $email, 'password' => $password),
-            ));
+        curl_setopt_array($curl, array(
+            CURLOPT_URL => 'https://crud.jonathansoto.mx/api/login',
+            CURLOPT_RETURNTRANSFER => true,
+            CURLOPT_ENCODING => '',
+            CURLOPT_MAXREDIRS => 10,
+            CURLOPT_TIMEOUT => 0,
+            CURLOPT_FOLLOWLOCATION => true,
+            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+            CURLOPT_CUSTOMREQUEST => 'POST',
+            CURLOPT_POSTFIELDS => array('email' => $email, 'password' => $password),
+        ));
 
-            $response = curl_exec($curl);
+        $response = curl_exec($curl);
 
-            curl_close($curl);
+        curl_close($curl);
 
-            $response = json_decode($response);
+        $response = json_decode($response);
 
-            if (isset($response->code) && $response->code == 2) {
-                $_SESSION['data'] = $response;
-                header('Location: ../home.php');
-                exit(); 
-            } else {
-                echo "Error de inicio de sesion. Por favor verifique sus credenciales.";
-            }
+        if (isset($response->code) && $response->code == 2) {
+            $_SESSION['data'] = $response;
+            header('Location: ../home.php');
+            exit();
+        } else {
+            echo "Error de inicio de sesion. Por favor verifique sus credenciales.";
         }
     }
-
-?>
+}

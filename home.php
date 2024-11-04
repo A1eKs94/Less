@@ -11,7 +11,7 @@ curl_setopt_array($curl, array(
     CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
     CURLOPT_CUSTOMREQUEST => 'GET',
     CURLOPT_HTTPHEADER => array(
-        'Authorization: Bearer 13|TJVmwZdhJoQzsqsVziB7MnreYhmc2zPMPXM9ww61'
+        'Authorization: Bearer 258|V3H1aJqlgkKnNVa7L7MxGoK1Xh2dYG4XQLhKk2Up'
     ),
 ));
 
@@ -120,7 +120,7 @@ $productos = json_decode($response, true)['data'] ?? [];
                                 aria-label="Close"></button>
                         </div>
                         <div class="modal-body">
-                            <form method="POST" action="app/newProduct.php">
+                            <form method="POST" action="app/newProduct.php" enctype="multipart/form-data">
                                 <div class="mb-3">
                                     <label class="form-label">Nombre</label>
                                     <input
@@ -152,6 +152,10 @@ $productos = json_decode($response, true)['data'] ?? [];
                                         class="form-control"
                                         name="features"
                                         required />
+                                </div>
+                                <div class="mb-3">
+                                    <label class="form-label">Imagen</label>
+                                    <input type="file" class="form-control" name="cover" required />
                                 </div>
                                 <button type="submit" class="btn btn-primary">Añadir</button>
                                 <input type="hidden" name="addProduct" />
@@ -263,7 +267,7 @@ $productos = json_decode($response, true)['data'] ?? [];
             });
         });
     </script>
-    
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             deleteProduct = document.querySelectorAll('.deleteProduct');
@@ -281,7 +285,7 @@ $productos = json_decode($response, true)['data'] ?? [];
                                 document.getElementById(`delete-form-${deleteProduct.value}`).submit()
                                 swal("Poof! ¡Tu archivo imaginario ha sido eliminado!", {
                                     icon: "success",
-                                    
+
                                 });
                             }
                         });
