@@ -1,4 +1,7 @@
 <?php
+
+include './app/getAllBrands.php';
+
 $curl = curl_init();
 
 curl_setopt_array($curl, array(
@@ -19,6 +22,7 @@ $response = curl_exec($curl);
 curl_close($curl);
 
 $productos = json_decode($response, true)['data'] ?? [];
+
 
 ?>
 
@@ -154,6 +158,15 @@ $productos = json_decode($response, true)['data'] ?? [];
                                         required />
                                 </div>
                                 <div class="mb-3">
+                                    <label class="form-label">Brand</label>
+                                    <select class="form-control" name="brand_id" required>
+                                        <option value="">Selecciona una marca</option>
+                                        <?php foreach ($brands as $brand): ?>
+                                            <option value="<?= $brand['id'] ?>"><?= $brand['name'] ?></option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                </div>
+                                <div class="mb-3">
                                     <label class="form-label">Imagen</label>
                                     <input type="file" class="form-control" name="cover" required />
                                 </div>
@@ -214,6 +227,9 @@ $productos = json_decode($response, true)['data'] ?? [];
                                     <img src="<?= $producto['cover'] ?: './img/no-img.jpg' ?>" class="card-img-top" alt="<?= $producto['name'] ?: 'Product Image' ?>" />
                                     <div class="card-body">
                                         <h5 class="card-title"><?= $producto['name'] ?: 'Card title' ?></h5>
+                                        <p class="card-text">
+                                            <strong><?= getBrandNameById($brands, $producto['brand_id']) ?></strong>
+                                        </p>
                                         <p class="card-text"><?= $producto['description'] ?: 'Some quick example text.' ?></p>
                                         <a href="product.php?slug=<?= $producto['slug'] ?>" class="btn btn-primary">Go somewhere</a>
                                         <button
@@ -225,6 +241,7 @@ $productos = json_decode($response, true)['data'] ?? [];
                                             data-slug="<?= $producto['slug'] ?>"
                                             data-description="<?= $producto['description'] ?>"
                                             data-features="<?= $producto['features'] ?>">
+
                                             Editar producto
                                         </button>
                                         <form action="app/deleteProduct.php" method="POST" id="delete-form-<?= $producto['id'] ?>">

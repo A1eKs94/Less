@@ -5,14 +5,15 @@ $slug = $_POST["slug"];
 $description = $_POST["description"];
 $features = $_POST["features"];
 $image = $_FILES["cover"]["tmp_name"] ?? '';
+$brand_id = $_POST["brand_id"];
 
 $newProduct = new Product();
-$newProduct->addProduct($name, $slug, $description, $features, $image);
+$newProduct->addProduct($name, $slug, $description, $features, $image, $brand_id);
 
 class Product
 {
 
-    function addProduct($name, $slug, $description, $features, $image)
+    function addProduct($name, $slug, $description, $features, $image, $brand_id)
     {
         echo "<script>console.log('algo' );</script>";
         $curl = curl_init();
@@ -31,7 +32,8 @@ class Product
                 'slug' => $slug,
                 'description' => $description,
                 'features' => $features,
-                'cover' => new CURLFile($image)
+                'cover' => new CURLFile($image),
+                'brand_id' => $brand_id
             ),
             CURLOPT_HTTPHEADER => array(
                 'Authorization: Bearer 258|V3H1aJqlgkKnNVa7L7MxGoK1Xh2dYG4XQLhKk2Up'
