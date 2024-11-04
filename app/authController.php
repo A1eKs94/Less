@@ -38,7 +38,7 @@ class User
         if (isset($response->code) && $response->code == 2) {
             $_SESSION['data'] = $response;
             $_SESSION['token'] = generateToken();
-            header('Location: ../home.php');
+            header('Location: ../home');
             exit();
         } else {
             echo "Error de inicio de sesion. Por favor verifique sus credenciales.";

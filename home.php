@@ -236,7 +236,7 @@ $productos = json_decode($response, true)['data'] ?? [];
                                             <strong><?= getBrandNameById($brands, $producto['brand_id']) ?></strong>
                                         </p>
                                         <p class="card-text"><?= $producto['description'] ?: 'Some quick example text.' ?></p>
-                                        <a href="product.php?slug=<?= $producto['slug'] ?>" class="btn btn-primary">Go somewhere</a>
+                                        <a href="product/<?= $producto['slug'] ?>" class="btn btn-primary">Go somewhere</a>
                                         <button
                                             class="btn btn-warning"
                                             data-bs-toggle="modal"

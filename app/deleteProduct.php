@@ -27,5 +27,5 @@ function deleteProduct($id)
 
   curl_close($curl);
 
-  header("location: ../home.php");
+  header("location: ../home");
 }

@@ -60,7 +60,7 @@ class Product
         $response = json_decode($response);
 
         if (isset($response->code) && $response->code == 4) {
-            header('Location: ../home.php');
+            header('Location: ../home');
             exit();
         } else {
             echo "Error al crear el producto: ";
