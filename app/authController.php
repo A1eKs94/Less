@@ -1,56 +1,65 @@
-<?php
-
-session_start();
-
-$email = $_POST["email"];
-$password = $_POST["password"];
-
-$newUser = new User();
-
-$newUser->login($email, $password);
+<?php 
+	session_start();
 
 
-class User
-{
+	if (isset($_POST['action'])) {
+		
+		switch ($_POST['action']) {
+			
+			case 'login':
+				echo "login";
+				$correo =  $_POST['email'];
+				$contrasena = $_POST['password'];
 
-    function login($email, $password)
-    {
-        $curl = curl_init();
+				$authController = new AuthController();
 
-        curl_setopt_array($curl, array(
-            CURLOPT_URL => 'https://crud.jonathansoto.mx/api/login',
-            CURLOPT_RETURNTRANSFER => true,
-            CURLOPT_ENCODING => '',
-            CURLOPT_MAXREDIRS => 10,
-            CURLOPT_TIMEOUT => 0,
-            CURLOPT_FOLLOWLOCATION => true,
-            CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
-            CURLOPT_CUSTOMREQUEST => 'POST',
-            CURLOPT_POSTFIELDS => array('email' => $email, 'password' => $password),
-        ));
+				$authController->access($correo,$contrasena);
 
-        $response = curl_exec($curl);
+			break; 
+		}
+	}
+	
+	class AuthController
+	{
 
-        curl_close($curl);
+		public function access($correo,$contrasena)
+		{
+			
+			$curl = curl_init();
 
-        $response = json_decode($response);
+			curl_setopt_array($curl, array(
+			  CURLOPT_URL => 'https://crud.jonathansoto.mx/api/login',
+			  CURLOPT_RETURNTRANSFER => true,
+			  CURLOPT_ENCODING => '',
+			  CURLOPT_MAXREDIRS => 10,
+			  CURLOPT_TIMEOUT => 0,
+			  CURLOPT_FOLLOWLOCATION => true,
+			  CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+			  CURLOPT_CUSTOMREQUEST => 'POST',
+			  CURLOPT_POSTFIELDS => array(
+			  	'email' => $correo,
+			  	'password' => $contrasena
+			  ),
+			));
 
-        if (isset($response->code) && $response->code == 2) {
-            $_SESSION['data'] = $response;
-            $_SESSION['token'] = generateToken();
-            header('Location: ../home');
-            exit();
-        } else {
-            echo "Error de inicio de sesion. Por favor verifique sus credenciales.";
-        }
-    }
-}
+			$response = curl_exec($curl); 
+			curl_close($curl); 
+			$response = json_decode($response);
 
-function generateToken($leng = 32){
-    $cadena = '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ';
-    $token = '';
-    for ($i = 0; $i < $leng; $i++) {
-        $token .= $cadena[rand(0, strlen($cadena) - 1)];
-    }
-    return $token;
-}
+
+			if (isset($response->data)  && is_object($response->data)) {
+				
+
+				$_SESSION['user_data'] = $response->data;
+
+				header("Location: ../home");
+			}else{
+				header("Location: ../index.html");
+			}
+
+		}
+
+
+	}
+
+?>

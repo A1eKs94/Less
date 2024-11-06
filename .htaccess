@@ -1,5 +1,16 @@
-RewriteEngine On
+Options +FollowSymLinks -MultiViews -Indexes
+RewriteEngine on
 
-RewriteRule ^home$ home.php [L]
+#páginas
+RewriteRule ^sample/?$ views/sample.php 
+RewriteRule ^home/?$ views/home.php 
 
-RewriteRule ^product/([^/]+)/?$ product.php?slug=$1 [L]
+RewriteRule ^products/?$ views/products/index.php 
+RewriteRule ^products/create/?$ views/products/create.php 
+RewriteRule ^products/details/([^\/]+)/?$ views/products/details.php?slug=$1 [L]
+RewriteRule ^products/update/([^\/]+)/?$ views/products/update.php?slug=$1 [L]
+
+
+
+#RewriteCond %{REQUEST_URI} ^\/404/$
+#RewriteRule ^(.*)$ /views/errors/404.php [L]
